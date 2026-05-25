@@ -1,0 +1,1290 @@
+{
+  "run_at": "2026-05-25T19:00:02.783657Z",
+  "skill_version": "1.0",
+  "n": 35,
+  "summary": {
+    "hit_rate_pct": 48.6,
+    "hits": 17,
+    "misses": 18,
+    "mean_error_pct": 75.1,
+    "overestimate_count": 26,
+    "underestimate_count": 8,
+    "mean_iou": 0.333,
+    "rmse_error_pct": 152.4
+  },
+  "category_breakdown": {
+    "data": {
+      "hits": 0,
+      "hit_rate_pct": 0.0,
+      "mean_error_pct": 133.5,
+      "n": 8
+    },
+    "creation": {
+      "hits": 7,
+      "hit_rate_pct": 50.0,
+      "mean_error_pct": 56.5,
+      "n": 14
+    },
+    "exploratory": {
+      "hits": 8,
+      "hit_rate_pct": 100.0,
+      "mean_error_pct": 30.3,
+      "n": 8
+    },
+    "execution": {
+      "hits": 2,
+      "hit_rate_pct": 40.0,
+      "mean_error_pct": 105.2,
+      "n": 5
+    }
+  },
+  "scope_breakdown": {
+    "crisp": {
+      "hits": 6,
+      "hit_rate_pct": 31.6,
+      "mean_error_pct": 90.5,
+      "n": 19
+    },
+    "semi-defined": {
+      "hits": 6,
+      "hit_rate_pct": 54.5,
+      "mean_error_pct": 60.3,
+      "n": 11
+    },
+    "fuzzy": {
+      "hits": 5,
+      "hit_rate_pct": 100.0,
+      "mean_error_pct": 49.0,
+      "n": 5
+    }
+  },
+  "worst_misses": [
+    {
+      "id": "TC001",
+      "label": "Simple factual Q&A",
+      "error_pct": 669.2,
+      "estimate": 5000,
+      "actual": 650
+    },
+    {
+      "id": "TC010",
+      "label": "Email draft \u2014 templated",
+      "error_pct": 323.1,
+      "estimate": 5500,
+      "actual": 1300
+    },
+    {
+      "id": "TC035",
+      "label": "Bulk file rename \u2014 scripted",
+      "error_pct": 266.7,
+      "estimate": 5500,
+      "actual": 1500
+    },
+    {
+      "id": "TC017",
+      "label": "Workflow automation \u2014 Zapier-style",
+      "error_pct": 256.8,
+      "estimate": 49950,
+      "actual": 14000
+    },
+    {
+      "id": "TC009",
+      "label": "Retrieval \u2014 simple list",
+      "error_pct": 193.8,
+      "estimate": 5875,
+      "actual": 2000
+    }
+  ],
+  "all_results": [
+    {
+      "id": "TC001",
+      "label": "Simple factual Q&A",
+      "category": "data",
+      "scope": "crisp",
+      "deps": "none",
+      "actual_midpoint": 650,
+      "ground_truth_range": [
+        400,
+        900
+      ],
+      "estimate": {
+        "point_estimate": 5000,
+        "low": 4000,
+        "high": 6000,
+        "variance": 0.2,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 2000,
+          "high": 8000,
+          "mid": 5000
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": false,
+        "error_abs": 4350,
+        "error_pct": 669.2,
+        "iou": 0.0,
+        "actual_in_gt_range": true
+      },
+      "notes": "Trivial lookup; minimal context, short response"
+    },
+    {
+      "id": "TC002",
+      "label": "Short document \u2014 templated format",
+      "category": "creation",
+      "scope": "crisp",
+      "deps": "none",
+      "actual_midpoint": 3500,
+      "ground_truth_range": [
+        2500,
+        5000
+      ],
+      "estimate": {
+        "point_estimate": 5500,
+        "low": 4400,
+        "high": 6600,
+        "variance": 0.2,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 3000,
+          "high": 8000,
+          "mid": 5500
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": false,
+        "error_abs": 2000,
+        "error_pct": 57.1,
+        "iou": 0.146,
+        "actual_in_gt_range": true
+      },
+      "notes": "Format locked, input provided, ~500-word output"
+    },
+    {
+      "id": "TC003",
+      "label": "Data processing \u2014 small CSV",
+      "category": "data",
+      "scope": "crisp",
+      "deps": "none",
+      "actual_midpoint": 3200,
+      "ground_truth_range": [
+        2000,
+        5000
+      ],
+      "estimate": {
+        "point_estimate": 5000,
+        "low": 4000,
+        "high": 6000,
+        "variance": 0.2,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 2000,
+          "high": 8000,
+          "mid": 5000
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": false,
+        "error_abs": 1800,
+        "error_pct": 56.2,
+        "iou": 0.25,
+        "actual_in_gt_range": true
+      },
+      "notes": "Structured task, small dataset"
+    },
+    {
+      "id": "TC004",
+      "label": "Research synthesis \u2014 5 sources",
+      "category": "exploratory",
+      "scope": "semi-defined",
+      "deps": "light",
+      "actual_midpoint": 16000,
+      "ground_truth_range": [
+        10000,
+        22000
+      ],
+      "estimate": {
+        "point_estimate": 17625,
+        "low": 11456,
+        "high": 23794,
+        "variance": 0.35,
+        "confidence": "yellow",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 10000,
+          "high": 20000,
+          "mid": 15000
+        },
+        "dep_buffer_applied": 0.175
+      },
+      "score": {
+        "hit": true,
+        "error_abs": 1625,
+        "error_pct": 10.2,
+        "iou": 0.764,
+        "actual_in_gt_range": true
+      },
+      "notes": "Research + synthesis; moderate web fetching"
+    },
+    {
+      "id": "TC005",
+      "label": "Single code feature \u2014 boilerplate",
+      "category": "creation",
+      "scope": "crisp",
+      "deps": "none",
+      "actual_midpoint": 4500,
+      "ground_truth_range": [
+        3000,
+        7000
+      ],
+      "estimate": {
+        "point_estimate": 5500,
+        "low": 4400,
+        "high": 6600,
+        "variance": 0.2,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 3000,
+          "high": 8000,
+          "mid": 5500
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": true,
+        "error_abs": 1000,
+        "error_pct": 22.2,
+        "iou": 0.55,
+        "actual_in_gt_range": true
+      },
+      "notes": "Clear requirements, familiar pattern"
+    },
+    {
+      "id": "TC006",
+      "label": "Complex code \u2014 architectural decision",
+      "category": "creation",
+      "scope": "semi-defined",
+      "deps": "none",
+      "actual_midpoint": 13000,
+      "ground_truth_range": [
+        8000,
+        18000
+      ],
+      "estimate": {
+        "point_estimate": 11500,
+        "low": 8625,
+        "high": 14375,
+        "variance": 0.25,
+        "confidence": "yellow",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 8000,
+          "high": 15000,
+          "mid": 11500
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": true,
+        "error_abs": -1500,
+        "error_pct": -11.5,
+        "iou": 0.575,
+        "actual_in_gt_range": true
+      },
+      "notes": "Architectural depth required, multi-file output"
+    },
+    {
+      "id": "TC007",
+      "label": "Deep exploratory research \u2014 fuzzy scope",
+      "category": "exploratory",
+      "scope": "fuzzy",
+      "deps": "heavy",
+      "actual_midpoint": 26000,
+      "ground_truth_range": [
+        15000,
+        38000
+      ],
+      "estimate": {
+        "point_estimate": 33750,
+        "low": 18562,
+        "high": 48938,
+        "variance": 0.45,
+        "confidence": "red",
+        "risk": "TIGHT",
+        "anchor_used": {
+          "low": 15000,
+          "high": 35000,
+          "mid": 25000
+        },
+        "dep_buffer_applied": 0.35
+      },
+      "score": {
+        "hit": true,
+        "error_abs": 7750,
+        "error_pct": 29.8,
+        "iou": 0.573,
+        "actual_in_gt_range": true
+      },
+      "notes": "Fuzzy scope, heavy web research, high variance"
+    },
+    {
+      "id": "TC008",
+      "label": "Full Cowork project \u2014 multi-phase",
+      "category": "execution",
+      "scope": "semi-defined",
+      "deps": "none",
+      "actual_midpoint": 40000,
+      "ground_truth_range": [
+        30000,
+        50000
+      ],
+      "estimate": {
+        "point_estimate": 37000,
+        "low": 22200,
+        "high": 51800,
+        "variance": 0.4,
+        "confidence": "yellow",
+        "risk": "TIGHT",
+        "anchor_used": {
+          "low": 30000,
+          "high": 44000,
+          "mid": 37000
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": true,
+        "error_abs": -3000,
+        "error_pct": -7.5,
+        "iou": 0.676,
+        "actual_in_gt_range": true
+      },
+      "notes": "Multi-phase execution, likely to exceed single session"
+    },
+    {
+      "id": "TC009",
+      "label": "Retrieval \u2014 simple list",
+      "category": "data",
+      "scope": "crisp",
+      "deps": "light",
+      "actual_midpoint": 2000,
+      "ground_truth_range": [
+        1000,
+        3000
+      ],
+      "estimate": {
+        "point_estimate": 5875,
+        "low": 4700,
+        "high": 7050,
+        "variance": 0.2,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 2000,
+          "high": 8000,
+          "mid": 5000
+        },
+        "dep_buffer_applied": 0.175
+      },
+      "score": {
+        "hit": false,
+        "error_abs": 3875,
+        "error_pct": 193.8,
+        "iou": 0.0,
+        "actual_in_gt_range": true
+      },
+      "notes": "Retrieval + formatting, low reasoning"
+    },
+    {
+      "id": "TC010",
+      "label": "Email draft \u2014 templated",
+      "category": "creation",
+      "scope": "crisp",
+      "deps": "none",
+      "actual_midpoint": 1300,
+      "ground_truth_range": [
+        800,
+        2000
+      ],
+      "estimate": {
+        "point_estimate": 5500,
+        "low": 4400,
+        "high": 6600,
+        "variance": 0.2,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 3000,
+          "high": 8000,
+          "mid": 5500
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": false,
+        "error_abs": 4200,
+        "error_pct": 323.1,
+        "iou": 0.0,
+        "actual_in_gt_range": true
+      },
+      "notes": "Short creative output, format clear"
+    },
+    {
+      "id": "TC011",
+      "label": "Data processing \u2014 large dataset analysis",
+      "category": "data",
+      "scope": "crisp",
+      "deps": "none",
+      "actual_midpoint": 8000,
+      "ground_truth_range": [
+        5000,
+        12000
+      ],
+      "estimate": {
+        "point_estimate": 5000,
+        "low": 4000,
+        "high": 6000,
+        "variance": 0.2,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 2000,
+          "high": 8000,
+          "mid": 5000
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": false,
+        "error_abs": -3000,
+        "error_pct": -37.5,
+        "iou": 0.125,
+        "actual_in_gt_range": true
+      },
+      "notes": "Larger dataset, multi-step computation"
+    },
+    {
+      "id": "TC012",
+      "label": "Research \u2014 competitive analysis, 3 companies",
+      "category": "exploratory",
+      "scope": "crisp",
+      "deps": "heavy",
+      "actual_midpoint": 18000,
+      "ground_truth_range": [
+        12000,
+        25000
+      ],
+      "estimate": {
+        "point_estimate": 20250,
+        "low": 14175,
+        "high": 26325,
+        "variance": 0.30000000000000004,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 10000,
+          "high": 20000,
+          "mid": 15000
+        },
+        "dep_buffer_applied": 0.35
+      },
+      "score": {
+        "hit": true,
+        "error_abs": 2250,
+        "error_pct": 12.5,
+        "iou": 0.756,
+        "actual_in_gt_range": true
+      },
+      "notes": "3 companies, structured comparison, web research"
+    },
+    {
+      "id": "TC013",
+      "label": "Presentation creation \u2014 10 slides",
+      "category": "creation",
+      "scope": "semi-defined",
+      "deps": "none",
+      "actual_midpoint": 9000,
+      "ground_truth_range": [
+        6000,
+        14000
+      ],
+      "estimate": {
+        "point_estimate": 11500,
+        "low": 8625,
+        "high": 14375,
+        "variance": 0.25,
+        "confidence": "yellow",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 8000,
+          "high": 15000,
+          "mid": 11500
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": true,
+        "error_abs": 2500,
+        "error_pct": 27.8,
+        "iou": 0.642,
+        "actual_in_gt_range": true
+      },
+      "notes": "Structured output, moderate creative depth"
+    },
+    {
+      "id": "TC014",
+      "label": "Code debugging \u2014 known error",
+      "category": "data",
+      "scope": "crisp",
+      "deps": "none",
+      "actual_midpoint": 2500,
+      "ground_truth_range": [
+        1500,
+        4000
+      ],
+      "estimate": {
+        "point_estimate": 5000,
+        "low": 4000,
+        "high": 6000,
+        "variance": 0.2,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 2000,
+          "high": 8000,
+          "mid": 5000
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": false,
+        "error_abs": 2500,
+        "error_pct": 100.0,
+        "iou": 0.0,
+        "actual_in_gt_range": true
+      },
+      "notes": "Constrained problem, provided context"
+    },
+    {
+      "id": "TC015",
+      "label": "Multi-file refactor",
+      "category": "execution",
+      "scope": "semi-defined",
+      "deps": "none",
+      "actual_midpoint": 15000,
+      "ground_truth_range": [
+        10000,
+        22000
+      ],
+      "estimate": {
+        "point_estimate": 37000,
+        "low": 22200,
+        "high": 51800,
+        "variance": 0.4,
+        "confidence": "yellow",
+        "risk": "TIGHT",
+        "anchor_used": {
+          "low": 30000,
+          "high": 44000,
+          "mid": 37000
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": false,
+        "error_abs": 22000,
+        "error_pct": 146.7,
+        "iou": 0.0,
+        "actual_in_gt_range": true
+      },
+      "notes": "Multi-file, sequential edits, moderate complexity"
+    },
+    {
+      "id": "TC016",
+      "label": "Simple summarization",
+      "category": "data",
+      "scope": "crisp",
+      "deps": "none",
+      "actual_midpoint": 2500,
+      "ground_truth_range": [
+        1500,
+        4000
+      ],
+      "estimate": {
+        "point_estimate": 5000,
+        "low": 4000,
+        "high": 6000,
+        "variance": 0.2,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 2000,
+          "high": 8000,
+          "mid": 5000
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": false,
+        "error_abs": 2500,
+        "error_pct": 100.0,
+        "iou": 0.0,
+        "actual_in_gt_range": true
+      },
+      "notes": "Input provided, format specified, short output"
+    },
+    {
+      "id": "TC017",
+      "label": "Workflow automation \u2014 Zapier-style",
+      "category": "execution",
+      "scope": "semi-defined",
+      "deps": "heavy",
+      "actual_midpoint": 14000,
+      "ground_truth_range": [
+        8000,
+        20000
+      ],
+      "estimate": {
+        "point_estimate": 49950,
+        "low": 29970,
+        "high": 69930,
+        "variance": 0.4,
+        "confidence": "yellow",
+        "risk": "RISKY",
+        "anchor_used": {
+          "low": 30000,
+          "high": 44000,
+          "mid": 37000
+        },
+        "dep_buffer_applied": 0.35
+      },
+      "score": {
+        "hit": false,
+        "error_abs": 35950,
+        "error_pct": 256.8,
+        "iou": 0.0,
+        "actual_in_gt_range": true
+      },
+      "notes": "Multi-tool execution, external API calls"
+    },
+    {
+      "id": "TC018",
+      "label": "Legal document review",
+      "category": "exploratory",
+      "scope": "crisp",
+      "deps": "none",
+      "actual_midpoint": 13000,
+      "ground_truth_range": [
+        8000,
+        18000
+      ],
+      "estimate": {
+        "point_estimate": 15000,
+        "low": 10500,
+        "high": 19500,
+        "variance": 0.30000000000000004,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 10000,
+          "high": 20000,
+          "mid": 15000
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": true,
+        "error_abs": 2000,
+        "error_pct": 15.4,
+        "iou": 0.652,
+        "actual_in_gt_range": true
+      },
+      "notes": "Long input, high-reasoning output"
+    },
+    {
+      "id": "TC019",
+      "label": "Creative writing \u2014 short story",
+      "category": "creation",
+      "scope": "semi-defined",
+      "deps": "none",
+      "actual_midpoint": 6000,
+      "ground_truth_range": [
+        4000,
+        9000
+      ],
+      "estimate": {
+        "point_estimate": 11500,
+        "low": 8625,
+        "high": 14375,
+        "variance": 0.25,
+        "confidence": "yellow",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 8000,
+          "high": 15000,
+          "mid": 11500
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": false,
+        "error_abs": 5500,
+        "error_pct": 91.7,
+        "iou": 0.036,
+        "actual_in_gt_range": true
+      },
+      "notes": "Open-ended creative, moderate length"
+    },
+    {
+      "id": "TC020",
+      "label": "Database schema design",
+      "category": "creation",
+      "scope": "semi-defined",
+      "deps": "none",
+      "actual_midpoint": 7000,
+      "ground_truth_range": [
+        4000,
+        10000
+      ],
+      "estimate": {
+        "point_estimate": 11500,
+        "low": 8625,
+        "high": 14375,
+        "variance": 0.25,
+        "confidence": "yellow",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 8000,
+          "high": 15000,
+          "mid": 11500
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": false,
+        "error_abs": 4500,
+        "error_pct": 64.3,
+        "iou": 0.133,
+        "actual_in_gt_range": true
+      },
+      "notes": "Technical design, moderate depth"
+    },
+    {
+      "id": "TC021",
+      "label": "Market research \u2014 new vertical",
+      "category": "exploratory",
+      "scope": "fuzzy",
+      "deps": "heavy",
+      "actual_midpoint": 22000,
+      "ground_truth_range": [
+        14000,
+        32000
+      ],
+      "estimate": {
+        "point_estimate": 33750,
+        "low": 18562,
+        "high": 48938,
+        "variance": 0.45,
+        "confidence": "red",
+        "risk": "TIGHT",
+        "anchor_used": {
+          "low": 15000,
+          "high": 35000,
+          "mid": 25000
+        },
+        "dep_buffer_applied": 0.35
+      },
+      "score": {
+        "hit": true,
+        "error_abs": 11750,
+        "error_pct": 53.4,
+        "iou": 0.385,
+        "actual_in_gt_range": true
+      },
+      "notes": "Fuzzy scope + heavy research = high variance"
+    },
+    {
+      "id": "TC022",
+      "label": "Unit test generation",
+      "category": "creation",
+      "scope": "crisp",
+      "deps": "none",
+      "actual_midpoint": 5000,
+      "ground_truth_range": [
+        3000,
+        7000
+      ],
+      "estimate": {
+        "point_estimate": 5500,
+        "low": 4400,
+        "high": 6600,
+        "variance": 0.2,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 3000,
+          "high": 8000,
+          "mid": 5500
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": true,
+        "error_abs": 500,
+        "error_pct": 10.0,
+        "iou": 0.55,
+        "actual_in_gt_range": true
+      },
+      "notes": "Templated, well-defined input"
+    },
+    {
+      "id": "TC023",
+      "label": "Data pipeline build \u2014 end to end",
+      "category": "execution",
+      "scope": "semi-defined",
+      "deps": "light",
+      "actual_midpoint": 25000,
+      "ground_truth_range": [
+        15000,
+        35000
+      ],
+      "estimate": {
+        "point_estimate": 43475,
+        "low": 26085,
+        "high": 60865,
+        "variance": 0.4,
+        "confidence": "yellow",
+        "risk": "RISKY",
+        "anchor_used": {
+          "low": 30000,
+          "high": 44000,
+          "mid": 37000
+        },
+        "dep_buffer_applied": 0.175
+      },
+      "score": {
+        "hit": false,
+        "error_abs": 18475,
+        "error_pct": 73.9,
+        "iou": 0.194,
+        "actual_in_gt_range": true
+      },
+      "notes": "Multi-system execution, high token load"
+    },
+    {
+      "id": "TC024",
+      "label": "Strategic memo \u2014 internal",
+      "category": "creation",
+      "scope": "crisp",
+      "deps": "none",
+      "actual_midpoint": 6500,
+      "ground_truth_range": [
+        4000,
+        9000
+      ],
+      "estimate": {
+        "point_estimate": 5500,
+        "low": 4400,
+        "high": 6600,
+        "variance": 0.2,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 3000,
+          "high": 8000,
+          "mid": 5500
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": true,
+        "error_abs": -1000,
+        "error_pct": -15.4,
+        "iou": 0.44,
+        "actual_in_gt_range": true
+      },
+      "notes": "Structured output, executive audience"
+    },
+    {
+      "id": "TC025",
+      "label": "Dependency upgrade audit",
+      "category": "data",
+      "scope": "crisp",
+      "deps": "light",
+      "actual_midpoint": 4500,
+      "ground_truth_range": [
+        3000,
+        7000
+      ],
+      "estimate": {
+        "point_estimate": 5875,
+        "low": 4700,
+        "high": 7050,
+        "variance": 0.2,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 2000,
+          "high": 8000,
+          "mid": 5000
+        },
+        "dep_buffer_applied": 0.175
+      },
+      "score": {
+        "hit": false,
+        "error_abs": 1375,
+        "error_pct": 30.6,
+        "iou": 0.568,
+        "actual_in_gt_range": true
+      },
+      "notes": "Structured audit, light tooling"
+    },
+    {
+      "id": "TC026",
+      "label": "Exploratory data analysis \u2014 unknown dataset",
+      "category": "exploratory",
+      "scope": "fuzzy",
+      "deps": "none",
+      "actual_midpoint": 15000,
+      "ground_truth_range": [
+        8000,
+        22000
+      ],
+      "estimate": {
+        "point_estimate": 25000,
+        "low": 13750,
+        "high": 36250,
+        "variance": 0.45,
+        "confidence": "red",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 15000,
+          "high": 35000,
+          "mid": 25000
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": true,
+        "error_abs": 10000,
+        "error_pct": 66.7,
+        "iou": 0.292,
+        "actual_in_gt_range": true
+      },
+      "notes": "Fuzzy scope drives variance even without web deps"
+    },
+    {
+      "id": "TC027",
+      "label": "Onboarding doc \u2014 HR template",
+      "category": "creation",
+      "scope": "crisp",
+      "deps": "none",
+      "actual_midpoint": 7000,
+      "ground_truth_range": [
+        5000,
+        10000
+      ],
+      "estimate": {
+        "point_estimate": 5500,
+        "low": 4400,
+        "high": 6600,
+        "variance": 0.2,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 3000,
+          "high": 8000,
+          "mid": 5500
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": false,
+        "error_abs": -1500,
+        "error_pct": -21.4,
+        "iou": 0.286,
+        "actual_in_gt_range": true
+      },
+      "notes": "Structured document, medium length"
+    },
+    {
+      "id": "TC028",
+      "label": "API integration \u2014 OAuth flow",
+      "category": "creation",
+      "scope": "crisp",
+      "deps": "light",
+      "actual_midpoint": 8000,
+      "ground_truth_range": [
+        5000,
+        12000
+      ],
+      "estimate": {
+        "point_estimate": 6462,
+        "low": 5170,
+        "high": 7755,
+        "variance": 0.2,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 3000,
+          "high": 8000,
+          "mid": 5500
+        },
+        "dep_buffer_applied": 0.175
+      },
+      "score": {
+        "hit": false,
+        "error_abs": -1538,
+        "error_pct": -19.2,
+        "iou": 0.369,
+        "actual_in_gt_range": true
+      },
+      "notes": "Known pattern, docs may be referenced"
+    },
+    {
+      "id": "TC029",
+      "label": "Full app deployment pipeline",
+      "category": "execution",
+      "scope": "fuzzy",
+      "deps": "heavy",
+      "actual_midpoint": 32000,
+      "ground_truth_range": [
+        20000,
+        45000
+      ],
+      "estimate": {
+        "point_estimate": 49950,
+        "low": 24975,
+        "high": 74925,
+        "variance": 0.5,
+        "confidence": "red",
+        "risk": "RISKY",
+        "anchor_used": {
+          "low": 30000,
+          "high": 44000,
+          "mid": 37000
+        },
+        "dep_buffer_applied": 0.35
+      },
+      "score": {
+        "hit": true,
+        "error_abs": 17950,
+        "error_pct": 56.1,
+        "iou": 0.365,
+        "actual_in_gt_range": true
+      },
+      "notes": "Multi-system, fuzzy scope, high execution token load"
+    },
+    {
+      "id": "TC030",
+      "label": "Survey analysis",
+      "category": "data",
+      "scope": "crisp",
+      "deps": "none",
+      "actual_midpoint": 9000,
+      "ground_truth_range": [
+        6000,
+        14000
+      ],
+      "estimate": {
+        "point_estimate": 5000,
+        "low": 4000,
+        "high": 6000,
+        "variance": 0.2,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 2000,
+          "high": 8000,
+          "mid": 5000
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": false,
+        "error_abs": -4000,
+        "error_pct": -44.4,
+        "iou": 0.0,
+        "actual_in_gt_range": true
+      },
+      "notes": "Input-heavy, NLP analysis, structured output"
+    },
+    {
+      "id": "TC031",
+      "label": "Security audit \u2014 codebase",
+      "category": "exploratory",
+      "scope": "semi-defined",
+      "deps": "none",
+      "actual_midpoint": 13000,
+      "ground_truth_range": [
+        8000,
+        18000
+      ],
+      "estimate": {
+        "point_estimate": 15000,
+        "low": 9750,
+        "high": 20250,
+        "variance": 0.35,
+        "confidence": "yellow",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 10000,
+          "high": 20000,
+          "mid": 15000
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": true,
+        "error_abs": 2000,
+        "error_pct": 15.4,
+        "iou": 0.673,
+        "actual_in_gt_range": true
+      },
+      "notes": "Reasoning-heavy review, output structured"
+    },
+    {
+      "id": "TC032",
+      "label": "Translation \u2014 2000-word document",
+      "category": "creation",
+      "scope": "crisp",
+      "deps": "none",
+      "actual_midpoint": 5500,
+      "ground_truth_range": [
+        4000,
+        8000
+      ],
+      "estimate": {
+        "point_estimate": 5500,
+        "low": 4400,
+        "high": 6600,
+        "variance": 0.2,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 3000,
+          "high": 8000,
+          "mid": 5500
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": true,
+        "error_abs": 0,
+        "error_pct": 0.0,
+        "iou": 0.55,
+        "actual_in_gt_range": true
+      },
+      "notes": "Input + output well defined, low reasoning"
+    },
+    {
+      "id": "TC033",
+      "label": "Architecture design \u2014 microservices",
+      "category": "exploratory",
+      "scope": "fuzzy",
+      "deps": "none",
+      "actual_midpoint": 18000,
+      "ground_truth_range": [
+        10000,
+        28000
+      ],
+      "estimate": {
+        "point_estimate": 25000,
+        "low": 13750,
+        "high": 36250,
+        "variance": 0.45,
+        "confidence": "red",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 15000,
+          "high": 35000,
+          "mid": 25000
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": true,
+        "error_abs": 7000,
+        "error_pct": 38.9,
+        "iou": 0.543,
+        "actual_in_gt_range": true
+      },
+      "notes": "Fuzzy scope + high reasoning = broad range"
+    },
+    {
+      "id": "TC034",
+      "label": "Financial model \u2014 Excel build",
+      "category": "creation",
+      "scope": "semi-defined",
+      "deps": "none",
+      "actual_midpoint": 12000,
+      "ground_truth_range": [
+        8000,
+        18000
+      ],
+      "estimate": {
+        "point_estimate": 11500,
+        "low": 8625,
+        "high": 14375,
+        "variance": 0.25,
+        "confidence": "yellow",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 8000,
+          "high": 15000,
+          "mid": 11500
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": true,
+        "error_abs": -500,
+        "error_pct": -4.2,
+        "iou": 0.575,
+        "actual_in_gt_range": true
+      },
+      "notes": "Complex output, tool execution overhead"
+    },
+    {
+      "id": "TC035",
+      "label": "Bulk file rename \u2014 scripted",
+      "category": "creation",
+      "scope": "crisp",
+      "deps": "none",
+      "actual_midpoint": 1500,
+      "ground_truth_range": [
+        800,
+        2500
+      ],
+      "estimate": {
+        "point_estimate": 5500,
+        "low": 4400,
+        "high": 6600,
+        "variance": 0.2,
+        "confidence": "green",
+        "risk": "SAFE",
+        "anchor_used": {
+          "low": 3000,
+          "high": 8000,
+          "mid": 5500
+        },
+        "dep_buffer_applied": 0.0
+      },
+      "score": {
+        "hit": false,
+        "error_abs": 4000,
+        "error_pct": 266.7,
+        "iou": 0.0,
+        "actual_in_gt_range": true
+      },
+      "notes": "Simple scripting, fully specified"
+    }
+  ]
+}
