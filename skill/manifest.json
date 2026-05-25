@@ -1,0 +1,71 @@
+{
+  "skill_metadata": {
+    "name": "TokenEstimator",
+    "version": "1.0",
+    "created": "2026-05-25",
+    "description": "Estimate tokens before execution. Prevent session runaway via decision-driven estimation, model recommendations, and scope reduction options. Pro plan target: 44K/5-hour window.",
+    "author": "User",
+    "tags": ["planning", "estimation", "efficiency", "cowork"],
+    "trigger_phrases": [
+      "estimate tokens for",
+      "before you start, estimate",
+      "token check before execution",
+      "can this fit in one session"
+    ],
+    "target_plans": ["Pro", "Max", "Team", "Enterprise"],
+    "use_cases": [
+      "Estimating task complexity before execution",
+      "Planning multiple tasks within session budget",
+      "Choosing between models (Opus vs Sonnet vs Haiku)",
+      "Preventing token runaway in Cowork sessions",
+      "Scoping exploratory or research-heavy work"
+    ]
+  },
+  "distribution_info": {
+    "formats": {
+      "zip": "token-estimation-skill.zip",
+      "directory": "token-estimation-skill/",
+      "files": ["SKILL.md", "README.md"]
+    },
+    "installation_methods": [
+      {
+        "method": "Claude.ai Web",
+        "steps": [
+          "Extract ZIP file",
+          "Go to Settings > Customize > Skills",
+          "Click Add/Upload",
+          "Select SKILL.md",
+          "Done - skill available in account"
+        ]
+      },
+      {
+        "method": "Claude Code (Git)",
+        "steps": [
+          "Create: .claude/skills/token-estimation/",
+          "Copy SKILL.md to that directory",
+          "Commit to repo",
+          "Skills auto-load at session start"
+        ]
+      }
+    ]
+  },
+  "quick_reference": {
+    "constraints": {
+      "pro_plan_window": "44K tokens per 5 hours",
+      "acceptable_variance": "±15%",
+      "estimation_goal": "Prevent runaway, not perfection"
+    },
+    "risk_thresholds": {
+      "SAFE": "< 30K tokens",
+      "TIGHT": "30-38K tokens",
+      "RISKY": "> 38K tokens"
+    },
+    "key_features": [
+      "Gathers 3 decision points (task category, scope, dependencies)",
+      "Provides breakdown estimate with confidence level",
+      "Flags risk status and recommends scope adjustments",
+      "Suggests optimal model (Opus/Sonnet/Haiku) with savings",
+      "Recommends execution path (now/phase/reduce/defer)"
+    ]
+  }
+}
