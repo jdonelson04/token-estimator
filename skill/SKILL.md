@@ -128,37 +128,37 @@ fix: timebox explicitly, cap iteration count, define a stopping condition
 
 ---
 
-## Output Vocabulary — Tiers and Buckets
+## Internal Calibration — Tiers and Buckets
 
-*These are how we express the estimate, not how we route the input.*
-*Claude derives tier and bucket from execution path reasoning above.*
+*Not shown to the user. Used internally to produce the token estimate.*
+*Midpoints are calibrated from live test data and updated with each skill version.*
 
 ### Output tiers — how much Claude will produce
 
 | Tier | Mid | When |
 |------|-----|------|
-| 1 — Micro | 1,200 | <300 tokens output — answer, email, one-liner |
-| 2 — Standard | 3,700 | 300–2K tokens — short doc, snippet, summary |
-| 3 — Complex | 9,300 | 2K–5K tokens, or deep reasoning for shorter output |
-| 4 — Project | 18,800 | 30+ min of work, many interdependent steps |
+| 1 — Micro | 1,200 | Answer, email, one-liner |
+| 2 — Standard | 3,700 | Short doc, snippet, summary |
+| 3 — Complex | 9,300 | Analysis, design doc, real feature |
+| 4 — Project | 18,800 | Multi-step work, research synthesis |
 | 5 — Full Session | 36,000 | Requires follow-up messages to complete |
 
 ### Context buckets — what Claude must consume before starting
 
 | Bucket | Mid | When |
 |--------|-----|------|
-| A — Provided | 0 | User supplies everything — paste, upload, brief |
-| B — Light Fetch | 5,000 | Few lookups — 2–3 sources, files, or API calls |
-| C — Deep Research | 17,500 | Many sources (5–10+), full codebase, long corpus |
-| D — Iterative/Unknown | 30,000 | Path unknown until Claude starts; enumeration traps |
+| A — Provided | 0 | User supplies everything |
+| B — Light Fetch | 5,000 | 2–3 sources, files, or API calls |
+| C — Deep Research | 17,500 | 5–10+ sources, full codebase, long corpus |
+| D — Iterative/Unknown | 30,000 | Path unknown; enumeration traps |
 
 ### Scope variance
 
-| Scope | Variance | Signal |
-|-------|----------|--------|
-| CRISP — fully specified, format locked | ±10% | 🟢 |
-| SEMI-DEFINED — mostly clear, some unknowns | ±15% | 🟡 |
-| FUZZY — exploratory, requirements unclear | ±25% | 🔴 |
+| Scope | Variance |
+|-------|----------|
+| CRISP — fully specified, format locked | ±10% |
+| SEMI-DEFINED — mostly clear, some unknowns | ±15% |
+| FUZZY — exploratory, requirements unclear | ±25% |
 
 ---
 
@@ -218,11 +218,10 @@ TRAPS IDENTIFIED: [none | enumeration / reasoning / fetch / iteration]
 [IF PROBE RAN:]
 PROBE: [finding] → [token implication] → revised risk: [SAFE|TIGHT|RISKY]
 
-OUTPUT COST:  Tier [N] — ~[X] tokens  ([description])
-CONTEXT COST: Bucket [X] — ~[Y] tokens ([description])
 ──────────────────────────────────────────────────────
-TOTAL:        ~[Z] tokens ([low]–[high])  [🟢|🟡|🔴]
-RISK:         [✓ SAFE | ⚠ TIGHT | ❌ RISKY]
+ESTIMATE:  ~[Z] tokens ([low]–[high])  [🟢|🟡|🔴]
+RISK:      [✓ SAFE | ⚠ TIGHT | ❌ RISKY]
+──────────────────────────────────────────────────────
 
 [IF RISKY:]
 Option A: [narrowed scope]  → ~[tok] ✓
@@ -264,12 +263,12 @@ EXECUTION PATH:
 
 TRAPS IDENTIFIED: none
 
-OUTPUT COST:  Tier 2 — ~3,700 tok  (short structured doc)
-CONTEXT COST: Bucket A — ~0        (self-contained)
-TOTAL:        ~3,700 tok (3,300–4,100)  🟢
-RISK:         ✓ SAFE
-MODEL:        Sonnet — structured writing, no deep reasoning
-EXECUTION:    Proceed now
+──────────────────────────────────────────────────────
+ESTIMATE:  ~3,700 tok (3,300–4,100)  🟢
+RISK:      ✓ SAFE
+──────────────────────────────────────────────────────
+MODEL:     Sonnet — structured writing, no deep reasoning
+EXECUTION: Proceed now
 ```
 
 **Example 2 — Fetch trap, SAFE (probe skipped)**
@@ -285,12 +284,12 @@ TRAPS IDENTIFIED: fetch trap
   → 5 frameworks × ~2–3K tok per source = ~10–15K tok before writing begins
   → Source count is bounded (5), so cost is predictable
 
-OUTPUT COST:  Tier 3 — ~9,300 tok  (detailed comparison)
-CONTEXT COST: Bucket C — ~12,000   (5 sources × ~2–3K each)
-TOTAL:        ~21,300 tok (18,100–24,500)  🟡
-RISK:         ✓ SAFE — fetch trap identified but bounded
-MODEL:        Opus — cross-framework judgment
-EXECUTION:    Proceed now. To reduce: provide docs directly → drops to ~9,300 tok
+──────────────────────────────────────────────────────
+ESTIMATE:  ~21,300 tok (18,100–24,500)  🟡
+RISK:      ✓ SAFE — fetch trap identified but bounded
+──────────────────────────────────────────────────────
+MODEL:     Opus — cross-framework judgment
+EXECUTION: Proceed now. To reduce: provide docs directly → drops to ~9,300 tok
 ```
 
 **Example 3 — Enumeration trap, RISKY → probe fires**
@@ -310,15 +309,14 @@ TRAPS IDENTIFIED: enumeration trap
 PROBE: ~180,000 emails in mailbox matching criteria
   → Even at 200 tok/email to index = 36M tokens — not feasible in any session
 
-OUTPUT COST:  Tier 1 — ~1,200 tok  (trivial — just marking items)
-CONTEXT COST: Bucket D — effectively unlimited at full scope
-TOTAL:        >> 44K limit
-RISK:         ❌ RISKY
-
+──────────────────────────────────────────────────────
+ESTIMATE:  >> 44K limit
+RISK:      ❌ RISKY
+──────────────────────────────────────────────────────
 Option A: Process only last 6 months of unread emails → ~8K tok ✓ SAFE
 Option B: Process in batches of 500 emails per session → ~12K tok/session
 Option C: Use Gmail filters directly (no Claude enumeration needed) → ~0 tok ✓
 
-MODEL:        Haiku — execution is trivial once scoped; Opus not needed
-EXECUTION:    Do not proceed at full scope — the indexing alone exceeds the session limit
+MODEL:     Haiku — execution is trivial once scoped; Opus not needed
+EXECUTION: Do not proceed at full scope — the indexing alone exceeds the session limit
 ```

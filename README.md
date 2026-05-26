@@ -14,54 +14,28 @@ TokenEstimator catches this before it happens.
 
 ## How it works
 
-The skill doesn't just assign your task to a cost bucket. It reasons about **what Claude would actually do** to complete your task — the execution path — and looks for **token traps**: patterns that are far more expensive than the prompt surface suggests.
+The skill reasons about **what Claude would actually do** to complete your task — the execution path — and looks for **token traps**: patterns that are far more expensive than the prompt surface suggests.
 
 ### Token trap taxonomy
 
 | Trap | What it is | Example |
 |------|-----------|---------|
 | **Enumeration** | Must index an unbounded dataset before any useful work can start | Mark all unread emails older than 2020 as read |
-| **Reasoning** | Deep synthesis or cross-domain thinking; output may be short but cost is high | Write a 500-word proposal for achieving world peace |
+| **Reasoning** | Deep synthesis or cross-domain thinking; output may be short but thinking cost is high | Write a 500-word proposal for achieving world peace |
 | **Fetch** | Many external sources must be pulled before synthesis | Compare AI regulations across all G20 countries |
 | **Iteration** | Unknown number of try/observe/fix cycles; no stopping condition | Debug the performance issue and fix it |
 
 The **deceptive** version of each trap is the hardest case: the prompt *looks* cheap but is expensive. "Find all the TODO comments in our codebase" looks like a one-liner — but it requires reading every file first. The skill is specifically designed to catch these.
 
-### Estimation model
+### Risk levels
 
-Once the execution path is mapped and traps are identified, the skill produces a two-part estimate:
+| Status | Token Range | Action |
+|--------|-------------|--------|
+| ✓ SAFE | < 30K | Proceed now |
+| ⚠ TIGHT | 30–38K | Fits, but consider phasing or narrowing |
+| ❌ RISKY | ≥ 38K | Scope down — skill offers 3 concrete options |
 
-**Output cost** (5 tiers, 1.2K–36K tokens) — how much Claude will produce  
-**Context cost** (4 buckets, 0–30K tokens) — how much Claude must read or fetch first
-
-If the estimate is TIGHT or RISKY *and* traps are present, the skill runs a **probe** (~1K tokens) before committing — e.g., counting emails or files to get a real scope reading.
-
-### Output tiers
-
-| Tier | Mid | When |
-|------|-----|------|
-| 1 — Micro | 1,200 | Short answer, email, one-liner |
-| 2 — Standard | 3,700 | Short doc, snippet, summary |
-| 3 — Complex | 9,300 | Analysis, design doc, real feature |
-| 4 — Project | 18,800 | Research synthesis, multi-file work |
-| 5 — Full Session | 36,000 | Complete app, end-to-end project |
-
-### Context buckets
-
-| Bucket | Mid | When |
-|--------|-----|------|
-| A — Provided | 0 | User supplies everything |
-| B — Light Fetch | 5,000 | 2–3 sources, files, or API calls |
-| C — Deep Research | 17,500 | 5–10+ sources, full codebase |
-| D — Iterative/Unknown | 30,000 | Path unknown; enumeration traps |
-
-### Risk thresholds
-
-| Status | Range | Action |
-|--------|-------|--------|
-| ✓ SAFE | < 30K | Proceed |
-| ⚠ TIGHT | 30–38K | Consider phasing |
-| ❌ RISKY | ≥ 38K | Skill offers 3 scope-reduction options |
+When the estimate is TIGHT or RISKY and traps are present, the skill runs a **probe** (~1K tokens) before committing — for example, counting emails or files to get a real scope reading rather than guessing.
 
 ## Installation
 
@@ -97,12 +71,12 @@ EXECUTION PATH:
 
 TRAPS IDENTIFIED: none
 
-OUTPUT COST:  Tier 2 — ~3,700 tok  (short structured doc)
-CONTEXT COST: Bucket A — ~0        (self-contained)
-TOTAL:        ~3,700 tok (3,300–4,100)  🟢
-RISK:         ✓ SAFE
-MODEL:        Sonnet
-EXECUTION:    Proceed now
+──────────────────────────────────────────────────────
+ESTIMATE:  ~3,700 tok (3,300–4,100)  🟢
+RISK:      ✓ SAFE
+──────────────────────────────────────────────────────
+MODEL:     Sonnet
+EXECUTION: Proceed now
 ```
 
 **Enumeration trap — probe fires — RISKY**
@@ -119,17 +93,16 @@ TRAPS IDENTIFIED: enumeration trap
 PROBE: ~180,000 emails matching criteria
   → Even at 200 tok/email = 36M tokens — not feasible
 
-OUTPUT COST:  Tier 1 — ~1,200 tok
-CONTEXT COST: Bucket D — effectively unlimited at full scope
-TOTAL:        >> 44K limit
-RISK:         ❌ RISKY
-
+──────────────────────────────────────────────────────
+ESTIMATE:  >> 44K limit
+RISK:      ❌ RISKY
+──────────────────────────────────────────────────────
 Option A: Process only last 6 months  → ~8K tok ✓
 Option B: Process in batches of 500   → ~12K tok/session
 Option C: Use Gmail filters directly (no Claude enumeration) → ~0 tok ✓
 
-MODEL:        Haiku — execution is trivial once scoped
-EXECUTION:    Do not proceed at full scope
+MODEL:     Haiku — execution is trivial once scoped
+EXECUTION: Do not proceed at full scope
 ```
 
 ## Testing & Validation
@@ -138,7 +111,7 @@ EXECUTION:    Do not proceed at full scope
 
 ### v2 Test framework (current)
 
-The v2 harness evaluates the skill's **reasoning quality**, not just its estimate math. It's organized around a 9-cell matrix: trap type × surface deception.
+The v2 harness evaluates the skill's **reasoning quality** — not just estimate math. It's organized around a 9-cell matrix: trap type × surface deception.
 
 The deceptive column is the key test: does the skill catch expensive traps when the prompt doesn't make them obvious?
 
@@ -178,23 +151,18 @@ python3 tests/test_harness_v2.py --aggregate tests/results/ --report
 
 ### Community results
 
-Submitted runs live in `tests/results/community_results.jsonl` — one run per line, append-only. The dashboard (`tests/dashboard.html`) is regenerated from this file and shows:
-
-- Trap identification rate: obvious vs. deceptive, by trap type
-- Estimate hit rate and mean error bias
-- Key metrics by skill version (trend over time)
-- Per-cell breakdown and full runs table
+Submitted runs live in `tests/results/community_results.jsonl` — one run per line, append-only. The dashboard (`tests/dashboard.html`) is regenerated from this file and shows trap identification rate by trap type (obvious vs. deceptive), estimate accuracy, and how metrics change across skill versions.
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the full submission workflow.
 
 ### Version history
 
-| Version | Change | Simulated hit rate |
-|---------|--------|-------------------|
-| v1.0 | Initial — 4-category routing | 48.6% |
-| v1.1 | 5-tier output system, cluster-calibrated anchors | ~51% (sim) |
-| v1.2 | Two-part estimate: output tier + context bucket | in progress |
-| v1.3 | Execution-path reasoning; trap taxonomy; live test harness | in progress |
+| Version | Change |
+|---------|--------|
+| v1.0 | Initial — 4-category routing. Hit rate: 48.6%, RMSE: 152% |
+| v1.1 | 5-tier output system, cluster-calibrated anchors. RMSE ~51% (sim) |
+| v1.2 | Two-part estimate: output tier + context bucket |
+| v1.3 | Execution-path reasoning; trap taxonomy; tiers/buckets internalized |
 
 See [`LEARNINGS.md`](LEARNINGS.md) for root cause analysis of v1.0 failures.
 
